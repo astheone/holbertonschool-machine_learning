@@ -1,3 +1,3 @@
-echo "# Math Module
+# Math Module
 
-Ky folder përmban konceptet bazë të matematikës për machine learning." > README.md
+Ky folder përmban konceptet bazë të matematikës për machine learning.

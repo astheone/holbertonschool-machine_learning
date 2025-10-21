@@ -11,7 +11,8 @@ def poly_integral(poly, C=0):
     Returns:
         list: coefficients of the integral of the polynomial
     """
-    if not isinstance(poly, list) or len(poly) == 0 or not isinstance(C, (int, float)):
+    if (not isinstance(poly, list) or len(poly) == 0 or
+            not isinstance(C, (int, float))):
         return None
     if not all(isinstance(x, (int, float)) for x in poly):
         return None
@@ -23,7 +24,6 @@ def poly_integral(poly, C=0):
             val = int(val)
         result.append(val)
 
-    # Remove unnecessary trailing zeros
     while len(result) > 1 and result[-1] == 0:
         result.pop()
 

@@ -32,6 +32,7 @@ class Binomial:
             self.n = round(n_round)
             self.p = mean / self.n
 
+
     def pmf(self, k):
         """
         Calculates the Probability Mass Function (PMF)
@@ -45,6 +46,7 @@ class Binomial:
 
         # Define factorial manually (no imports allowed)
         def factorial(x):
+            """Calculates factorial of x."""
             if x == 0 or x == 1:
                 return 1
             fact = 1

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Binomial distribution module"""
 
-
 class Binomial:
     """Represents a Binomial distribution."""
 
@@ -25,12 +24,13 @@ class Binomial:
                 raise ValueError("data must contain multiple values")
 
             mean = sum(data) / len(data)
-            variance = sum([(x - mean) ** 2 for x in data]) / len(data)
+            variance = sum((x - mean) ** 2 for x in data) / len(data)
+
             p_first = 1 - (variance / mean)
             n_round = mean / p_first
+
             self.n = round(n_round)
             self.p = mean / self.n
-
 
     def pmf(self, k):
         """
@@ -39,26 +39,20 @@ class Binomial:
         """
         if not isinstance(k, int):
             k = int(k)
-
         if k < 0 or k > self.n:
             return 0
 
-        # Define factorial manually (no imports allowed)
+        # Small local factorial (no external libraries)
         def factorial(x):
-            """Calculates factorial of x."""
             if x == 0 or x == 1:
                 return 1
-            fact = 1
+            f = 1
             for i in range(2, x + 1):
-                fact *= i
-            return fact
+                f *= i
+            return f
 
-        # Combination formula: C(n, k) = n! / (k! * (n - k)!)
-        coeff = factorial(self.n) / (factorial(k) * factorial(self.n - k))
+        # Combination: C(n, k) = n! / (k! * (n - k)!)
+        comb = factorial(self.n) / (factorial(k) * factorial(self.n - k))
 
-        # PMF formula: C(n, k) * p^k * (1 - p)^(n - k)
-        p = self.p
-        n = self.n
-        pmf_value = coeff * (p ** k) * ((1 - p) ** (n - k))
-
-        return pmf_value
+        # PMF: C(n, k) * p^k * (1 - p)^(n - k)
+        return comb * (self.p ** k) * ((1 - self.p) ** (self.n - k))

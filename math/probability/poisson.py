@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Poisson distribution class
+Poisson tasks class
 """
 
 
@@ -8,7 +8,6 @@ class Poisson:
     """Represents a Poisson distribution"""
 
     def __init__(self, data=None, lambtha=1.):
-        """Initialize the Poisson distribution"""
         if data is None:
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
@@ -19,3 +18,25 @@ class Poisson:
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.lambtha = float(sum(data) / len(data))
+
+    def pmf(self, k):
+        """A function that calculates the PMF/a given number of successes"""
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        mean = self.lambtha
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+        e = 2.7182818285
+        return (e ** (-mean) * mean ** k) / factorial
+
+    def cdf(self, k):
+        """Calculate the value of the CDF for a given number of “successes”"""
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        # CDF = sum of PMF from 0 to k
+        return sum(self.pmf(i) for i in range(k + 1))

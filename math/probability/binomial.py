@@ -43,8 +43,8 @@ class Binomial:
         if k < 0 or k > self.n:
             return 0
 
-        # Small local factorial (no external libraries)
         def factorial(x):
+            """Simple factorial without math module"""
             if x == 0 or x == 1:
                 return 1
             f = 1
@@ -52,8 +52,21 @@ class Binomial:
                 f *= i
             return f
 
-        # Combination: C(n, k) = n! / (k! * (n - k)!)
         comb = factorial(self.n) / (factorial(k) * factorial(self.n - k))
-
-        # PMF: C(n, k) * p^k * (1 - p)^(n - k)
         return comb * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+
+    def cdf(self, k):
+        """
+        Calculates the value of the CDF for a given number of successes.
+        """
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        if k > self.n:
+            k = self.n
+
+        cdf_value = 0
+        for i in range(0, k + 1):
+            cdf_value += self.pmf(i)
+        return cdf_value

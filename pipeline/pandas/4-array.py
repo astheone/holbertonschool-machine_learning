@@ -3,9 +3,6 @@
 Converts selected columns from a DataFrame into a NumPy array
 """
 
-import pandas as pd
-import numpy as np
-
 
 def array(df):
     """
@@ -14,7 +11,7 @@ def array(df):
     Args:
         df (pd.DataFrame): The input DataFrame
     Returns:
-        np.ndarray: The numpy array containing the selected data
+        numpy.ndarray: The numpy array containing the selected data
     """
     arr = df[['High', 'Close']].tail(10).to_numpy()
     return arr

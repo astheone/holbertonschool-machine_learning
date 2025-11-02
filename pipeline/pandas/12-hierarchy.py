@@ -20,11 +20,11 @@ def hierarchy(df1, df2):
     df1 = df1.loc[1417411980:1417417980]
     df2 = df2.loc[1417411980:1417417980]
 
-    # Bashko dataframe-t dhe shto labels (bitstamp, coinbase)
+    # Bashko dataframe-t dhe shto labels
     df = pd.concat([df2, df1], keys=['bitstamp', 'coinbase'])
 
-    # Siguro që të jetë në renditje kronologjike
-    df.sort_index(inplace=True)
+    # Kthe rendin e MultiIndex-it që Timestamp të jetë i pari
+    df = df.swaplevel().sort_index()
 
     # Kthe dataframe-n
     return df

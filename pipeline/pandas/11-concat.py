@@ -6,6 +6,7 @@ Concatenates two dataframes on their Timestamp index
 import pandas as pd
 index = __import__('10-index').index
 
+
 def concat(df1, df2):
     """
     Concatenate df2 and df1 using Timestamp as index

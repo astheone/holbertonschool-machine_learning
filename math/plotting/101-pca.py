@@ -1,31 +1,48 @@
 #!/usr/bin/env python3
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
+"""
+Module 101-pca
+This module contains a function that performs PCA
+and displays a 3D scatter plot of the Iris dataset.
+"""
+
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-lib = np.load("pca.npz")
-data = lib["data"]
-labels = lib["labels"]
 
-data_means = np.mean(data, axis=0)
-norm_data = data - data_means
-_, _, Vh = np.linalg.svd(norm_data)
-pca_data = np.matmul(norm_data, Vh[:3].T)
+def pca():
+    """
+    Loads the Iris dataset from pca.npz,
+    performs PCA and plots the data in 3D space.
+    """
+    lib = np.load("pca.npz")
+    data = lib["data"]
+    labels = lib["labels"]
 
-# Plot
-fig = plt.figure(figsize=(6.4, 4.8))
-ax = fig.add_subplot(111, projection='3d')
-sc = ax.scatter(
-    pca_data[:, 0],
-    pca_data[:, 1],
-    pca_data[:, 2],
-    c=labels,
-    cmap='plasma'
-)
+    # Normalize data (mean-centering)
+    mean = np.mean(data, axis=0)
+    norm_data = data - mean
 
-ax.set_title("PCA of Iris Dataset")
-ax.set_xlabel("U1")
-ax.set_ylabel("U2")
-ax.set_zlabel("U3")
+    # Perform SVD (for PCA)
+    _, _, Vh = np.linalg.svd(norm_data)
+    W = Vh[:3].T
+    pca_data = np.matmul(norm_data, W)
 
-plt.show()
+    # 3D Visualization
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection="3d")
+
+    scatter = ax.scatter(
+        pca_data[:, 0],
+        pca_data[:, 1],
+        pca_data[:, 2],
+        c=labels,
+        cmap="plasma",
+        s=50
+    )
+
+    ax.set_title("PCA of Iris Dataset")
+    ax.set_xlabel("U1")
+    ax.set_ylabel("U2")
+    ax.set_zlabel("U3")
+    plt.show()

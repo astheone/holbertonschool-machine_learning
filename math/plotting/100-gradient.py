@@ -1,23 +1,12 @@
 #!/usr/bin/env python3
+import numpy as np
+import matplotlib.pyplot as plt
+
 """
 Module 100-gradient
 This module contains a function that plots a scatter plot
 showing sampled elevations on a mountain.
 """
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-
-#!/usr/bin/env python3
-"""
-Module 100-gradient
-This module contains a function that plots a scatter plot
-showing sampled elevations on a mountain.
-"""
-
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 def gradient():
@@ -38,4 +27,3 @@ def gradient():
     plt.xlabel("x coordinate (m)")
     plt.ylabel("y coordinate (m)")
     plt.show()
-

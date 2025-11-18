@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Module that returns a list of starships that can hold
-a given number of passengers.
+a given number of passengers from the SWAPI API.
 """
 
 import requests
@@ -10,20 +10,22 @@ import requests
 def availableShips(passengerCount):
     """
     Returns a list of starships that can carry at least
-    passengerCount passengers. Handles SWAPI pagination.
+    passengerCount passengers.
+    Handles SWAPI pagination.
     """
     url = "https://swapi-api.alx-tools.com/api/starships/"
-    result = []
+    ships = []
 
     while url:
-        r = requests.get(url)
-        data = r.json()
+        response = requests.get(url)
+        data = response.json()
 
         for ship in data.get("results", []):
-            passengers = ship.get("passengers", "0")
-            clean = passengers.replace(",", "")
+            p = ship.get("passengers", "0").replace(",", "")
+            if p.isdigit():
+                if int(p) >= passengerCount:
+                    ships.append(ship.get("name"))
 
-            if clean.isdigit():
-                num = int(clean)
-                if num >= passengerCount:
-                    result.append(ship.get("name"))
+        url = data.get("next")
+
+    return ships

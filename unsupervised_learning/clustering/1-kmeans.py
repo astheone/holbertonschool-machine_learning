@@ -3,6 +3,7 @@
 K-means clustering
 """
 import numpy as np
+initialize = __import__('0-initialize').initialize
 
 
 def kmeans(X, k, iterations=1000):
@@ -17,11 +18,14 @@ def kmeans(X, k, iterations=1000):
         return None, None
 
     n, d = X.shape
+
+    # MUST use initialize from task 0
+    C = initialize(X, k)
+    if C is None:
+        return None, None
+
     min_vals = np.min(X, axis=0)
     max_vals = np.max(X, axis=0)
-
-    # Initialization (uniform) → FIRST use
-    C = np.random.uniform(min_vals, max_vals, size=(k, d))
 
     for _ in range(iterations):
         C_prev = C.copy()
@@ -34,10 +38,9 @@ def kmeans(X, k, iterations=1000):
         for i in range(k):
             points = X[clss == i]
             if points.size == 0:
-                # Reinitialize empty cluster → SECOND use
-                C[i] = np.random.uniform(min_vals, max_vals, size=(1, d))
+                C[i] = np.random.uniform(min_vals, max_vals, d)
             else:
-                C[i] = np.mean(points, axis=0)
+                C[i] = points.mean(axis=0)
 
         if np.allclose(C, C_prev):
             break

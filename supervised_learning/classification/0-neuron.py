@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """
-Defines a single neuron for binary classification
+Defines a single neuron performing binary classification
 """
+
 import numpy as np
 
 
 class Neuron:
     """
-    Neuron class for binary classification
+    Defines a neuron
     """
 
     def __init__(self, nx):
         """
         Initializes the neuron
-
-        nx: number of input features
         """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")

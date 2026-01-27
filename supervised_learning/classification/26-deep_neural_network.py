@@ -1,23 +1,24 @@
-#!/usr/bin/env python3
-import numpy as np
-from 26-deep_neural_network import DeepNeuralNetwork
+import pickle
+import os
 
-# Dummy data (përdor të njëjtin si test script)
-np.random.seed(0)
-X = np.random.randn(5, 10)  # 5 features, 10 examples
-Y = np.random.randint(0, 2, (1, 10))
+class DeepNeuralNetwork:
+    # supozojmë që konstruktor dhe metoda të tjera ekzistojnë
+    # def __init__(self, nx, layers):
+    # def forward_prop(self, X):
+    # def train(self, X, Y, iterations=5000, alpha=0.05, graph=True):
+    # def evaluate(self, X, Y):
 
-# Krijo rrjetin neural
-nn = DeepNeuralNetwork(nx=5, layers=[3, 1])
+    def save(self, filename):
+        """Saves the instance object to a file in pickle format."""
+        if not filename.endswith('.pkl'):
+            filename += '.pkl'
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
 
-# Forward propagation
-A1, cache = nn.forward_prop(X)
-
-# Print output as test pret
-np.set_printoptions(precision=8)
-print(nn.L)
-print(nn.W1)
-print(nn.b1)
-print(nn.W2)
-print(nn.b2)
-print(A1)
+    @staticmethod
+    def load(filename):
+        """Loads a pickled DeepNeuralNetwork object."""
+        if not os.path.exists(filename):
+            return None
+        with open(filename, 'rb') as f:
+            return pickle.load(f)

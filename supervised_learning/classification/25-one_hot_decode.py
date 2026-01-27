@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-"""Function that converts a one-hot matrix into a vector of labels."""
+"""Function that converts a numeric label vector into a one-hot matrix."""
 
 import numpy as np
 
 
-def one_hot_decode(one_hot):
+def one_hot_encode(Y, classes):
     """
-    Converts a one-hot encoded matrix into a vector of numeric labels.
+    Converts a numeric label vector into a one-hot encoded matrix.
 
     Parameters:
-    - one_hot: numpy.ndarray of shape (classes, m) containing one-hot encoding
+    - Y: numpy.ndarray of shape (m,) with numeric class labels
+    - classes: int, maximum number of classes
 
     Returns:
-    - numpy.ndarray of shape (m,) containing the numeric labels for each example
-      or None on failure
+    - numpy.ndarray of shape (classes, m) with one-hot encoding
+      or None if input is invalid
     """
-    if not isinstance(one_hot, np.ndarray):
+    if not isinstance(Y, np.ndarray) or not isinstance(classes, int):
         return None
-    try:
-        # argmax returns the index of the max value in each column
-        return np.argmax(one_hot, axis=0)
-    except Exception:
+    if classes < 2 or np.max(Y) >= classes:
         return None
+    m = Y.shape[0]
+    one_hot = np.zeros((classes, m))
+    one_hot[Y, np.arange(m)] = 1
+    return one_hot

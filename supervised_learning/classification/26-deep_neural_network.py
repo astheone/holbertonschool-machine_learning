@@ -1,53 +1,23 @@
 #!/usr/bin/env python3
-"""DeepNeuralNetwork module with persistence methods."""
-
 import numpy as np
-import pickle
+from 26-deep_neural_network import DeepNeuralNetwork
 
+# Dummy data (përdor të njëjtin si test script)
+np.random.seed(0)
+X = np.random.randn(5, 10)  # 5 features, 10 examples
+Y = np.random.randint(0, 2, (1, 10))
 
-class DeepNeuralNetwork:
-    """Defines a deep neural network performing binary classification."""
+# Krijo rrjetin neural
+nn = DeepNeuralNetwork(nx=5, layers=[3, 1])
 
-    def __init__(self, nx, layers):
-        """Initialize the network (simplified constructor)."""
-        self.nx = nx
-        self.layers = layers
-        self.L = len(layers)
-        self.cache = {}
-        self.weights = {}
-        # Example weight initialization
-        for l in range(1, self.L + 1):
-            if l == 1:
-                self.weights['W1'] = np.random.randn(layers[l-1], nx)
-            else:
-                self.weights['W' + str(l)] = np.random.randn(layers[l-1], layers[l-2])
-            self.weights['b' + str(l)] = np.zeros((layers[l-1], 1))
+# Forward propagation
+A1, cache = nn.forward_prop(X)
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
-        """Train method (simplified placeholder)."""
-        # Training loop placeholder
-        A = np.random.randint(0, 2, size=Y.shape)
-        cost = np.random.rand()
-        return A, cost
-
-    def evaluate(self, X, Y):
-        """Evaluate method (simplified placeholder)."""
-        A = np.random.randint(0, 2, size=Y.shape)
-        cost = np.random.rand()
-        return A, cost
-
-    def save(self, filename):
-        """Save the instance object to a file in pickle format."""
-        if not filename.endswith(".pkl"):
-            filename += ".pkl"
-        with open(filename, 'wb') as f:
-            pickle.dump(self, f)
-
-    @staticmethod
-    def load(filename):
-        """Load a pickled DeepNeuralNetwork object."""
-        try:
-            with open(filename, 'rb') as f:
-                return pickle.load(f)
-        except FileNotFoundError:
-            return None
+# Print output as test pret
+np.set_printoptions(precision=8)
+print(nn.L)
+print(nn.W1)
+print(nn.b1)
+print(nn.W2)
+print(nn.b2)
+print(A1)

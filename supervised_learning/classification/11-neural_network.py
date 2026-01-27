@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""11-neural_network.py"""
+"""Module for NeuralNetwork cost calculation"""
 
 import numpy as np
 
@@ -17,12 +17,9 @@ class NeuralNetwork:
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # Hidden layer
         self.__W1 = np.random.randn(nodes, nx)
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
-
-        # Output neuron
         self.__W2 = np.random.randn(1, nodes)
         self.__b2 = 0
         self.__A2 = 0
@@ -52,15 +49,15 @@ class NeuralNetwork:
         return self.__A2
 
     def forward_prop(self, X):
-        """Forward propagation for the network"""
-        self.__A1 = 1 / (1 + np.exp(- (np.dot(self.__W1, X) + self.__b1)))
-        self.__A2 = 1 / (1 + np.exp(- (np.dot(self.__W2, self.__A1) + self.__b2)))
+        """Forward propagation using sigmoid activation"""
+        self.__A1 = 1 / (1 + np.exp(-(self.__W1 @ X + self.__b1)))
+        self.__A2 = 1 / (1 + np.exp(-(self.__W2 @ self.__A1 + self.__b2)))
         return self.__A1, self.__A2
 
     def cost(self, Y, A):
         """Compute cost using logistic regression"""
         m = Y.shape[1]
-        cost = - (1 / m) * np.sum(
-            Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
-        )
+        log_cost1 = Y * np.log(A)
+        log_cost2 = (1 - Y) * np.log(1.0000001 - A)
+        cost = - (1 / m) * np.sum(log_cost1 + log_cost2)
         return cost

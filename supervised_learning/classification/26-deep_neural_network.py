@@ -1,12 +1,24 @@
+#!/usr/bin/env python3
 import pickle
 import os
 
+
 class DeepNeuralNetwork:
-    # supozojmë që konstruktor dhe metoda të tjera ekzistojnë
-    # def __init__(self, nx, layers):
-    # def forward_prop(self, X):
-    # def train(self, X, Y, iterations=5000, alpha=0.05, graph=True):
-    # def evaluate(self, X, Y):
+    def __init__(self, nx, layers):
+        """Constructor supozojmë se ekziston."""
+        pass
+
+    def forward_prop(self, X):
+        """Supozim."""
+        pass
+
+    def train(self, X, Y, iterations=5000, alpha=0.05, graph=True):
+        """Supozim."""
+        pass
+
+    def evaluate(self, X, Y):
+        """Supozim."""
+        pass
 
     def save(self, filename):
         """Saves the instance object to a file in pickle format."""

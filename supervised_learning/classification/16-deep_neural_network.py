@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-"""16-deep_neural_network.py"""
-
 import numpy as np
 
 
@@ -17,11 +15,10 @@ class DeepNeuralNetwork:
         if not all(isinstance(n, int) and n > 0 for n in layers):
             raise TypeError("layers must be a list of positive integers")
 
-        self.L = len(layers)       # number of layers
-        self.cache = {}            # dictionary to store activations
-        self.weights = {}          # dictionary to store weights and biases
+        self.L = len(layers)
+        self.cache = {}
+        self.weights = {}
 
-        # Only one loop to initialize all weights and biases
         for l in range(1, self.L + 1):
             nodes = layers[l - 1]
             prev_nodes = nx if l == 1 else layers[l - 2]

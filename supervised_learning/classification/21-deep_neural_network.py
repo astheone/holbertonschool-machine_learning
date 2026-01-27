@@ -2,7 +2,7 @@
 import numpy as np
 
 class DeepNeuralNetwork:
-    """Defines a deep neural network performing binary classification"""
+    """Deep Neural Network performing binary classification"""
 
     def __init__(self, nx, layers):
         if not isinstance(nx, int):
@@ -50,8 +50,7 @@ class DeepNeuralNetwork:
 
     def cost(self, Y, A):
         m = Y.shape[1]
-        log_cost = Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
-        cost = -np.sum(log_cost) / m
+        cost = -np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)) / m
         return cost
 
     def evaluate(self, X, Y):
@@ -62,21 +61,18 @@ class DeepNeuralNetwork:
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         m = Y.shape[1]
-        weights_copy = self.__weights.copy()
         L = self.__L
-        A_final = cache['A' + str(L)]
-        dZ = A_final - Y
+        weights_copy = self.__weights.copy()
+        dZ = cache['A' + str(L)] - Y
 
         for l in reversed(range(1, L + 1)):
             A_prev = cache['A' + str(l - 1)]
             W = weights_copy['W' + str(l)]
             dW = np.dot(dZ, A_prev.T) / m
             db = np.sum(dZ, axis=1, keepdims=True) / m
-
             if l > 1:
                 A_prev_l1 = cache['A' + str(l - 1)]
                 W_prev = weights_copy['W' + str(l)]
                 dZ = np.dot(W_prev.T, dZ) * (A_prev_l1 * (1 - A_prev_l1))
-
             self.__weights['W' + str(l)] -= alpha * dW
             self.__weights['b' + str(l)] -= alpha * db

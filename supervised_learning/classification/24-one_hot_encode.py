@@ -8,11 +8,11 @@ def one_hot_encode(Y, classes):
     Y: numpy.ndarray of shape (m,) containing numeric class labels
     classes: maximum number of classes
 
-    Returns: one-hot encoded matrix of shape (classes, m)
+    Returns: one-hot encoded matrix of shape (classes, m), or None on failure
     """
     if not isinstance(Y, np.ndarray) or not isinstance(classes, int):
         return None
-    if Y.ndim != 1 or classes < 1:
+    if Y.ndim != 1 or classes < 2 or classes <= np.max(Y):
         return None
 
     m = Y.shape[0]

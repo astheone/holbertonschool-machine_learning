@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+This module contains a function for one-hot encoding numeric labels
+into a binary matrix suitable for machine learning tasks.
+"""
+
 import numpy as np
 
 

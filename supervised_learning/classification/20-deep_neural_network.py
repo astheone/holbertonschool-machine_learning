@@ -2,6 +2,8 @@
 import numpy as np
 
 class DeepNeuralNetwork:
+    """Defines a deep neural network performing binary classification"""
+
     def __init__(self, nx, layers):
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
@@ -11,9 +13,11 @@ class DeepNeuralNetwork:
             raise TypeError("layers must be a list of positive integers")
         if not all(isinstance(n, int) and n > 0 for n in layers):
             raise TypeError("layers must be a list of positive integers")
+
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
+
         for l in range(1, self.__L + 1):
             nodes = layers[l - 1]
             prev_nodes = nx if l == 1 else layers[l - 2]
@@ -46,7 +50,9 @@ class DeepNeuralNetwork:
 
     def cost(self, Y, A):
         m = Y.shape[1]
-        return -np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)) / m
+        log_cost = Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
+        cost = -np.sum(log_cost) / m
+        return cost
 
     def evaluate(self, X, Y):
         A, _ = self.forward_prop(X)

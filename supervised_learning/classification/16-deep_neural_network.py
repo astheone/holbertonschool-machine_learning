@@ -18,11 +18,11 @@ class DeepNeuralNetwork:
             raise TypeError("layers must be a list of positive integers")
 
         # Inicializimi i atributëve publikë
-        self.L = len(layers)       # Numri i layers
-        self.cache = {}            # Dictionary për vlerat ndërmjetëse
-        self.weights = {}          # Dictionary për peshat dhe bias
+        self.L = len(layers)
+        self.cache = {}
+        self.weights = {}
 
-        # Loop vetëm një herë për të inicializuar peshat dhe bias
+        # Vetëm një loop për peshat dhe bias
         for l in range(1, self.L + 1):
             nodes = layers[l - 1]
             prev_nodes = nx if l == 1 else layers[l - 2]

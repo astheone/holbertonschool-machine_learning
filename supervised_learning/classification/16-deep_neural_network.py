@@ -21,12 +21,10 @@ class DeepNeuralNetwork:
         self.cache = {}
         self.weights = {}
 
+        # only one loop
         for l in range(1, self.L + 1):
             nodes = layers[l - 1]
-            if l == 1:
-                he_std = np.sqrt(2 / nx)
-                self.weights['W1'] = np.random.randn(nodes, nx) * he_std
-            else:
-                he_std = np.sqrt(2 / layers[l - 2])
-                self.weights['W' + str(l)] = np.random.randn(nodes, layers[l - 2]) * he_std
+            prev_nodes = nx if l == 1 else layers[l - 2]
+            he_std = np.sqrt(2 / prev_nodes)
+            self.weights['W' + str(l)] = np.random.randn(nodes, prev_nodes) * he_std
             self.weights['b' + str(l)] = np.zeros((nodes, 1))

@@ -6,19 +6,19 @@ import numpy as np
 
 def one_hot_decode(one_hot):
     """
-    Converts a one-hot encoded numpy.ndarray into a vector of labels.
+    Converts a one-hot encoded matrix into a vector of numeric labels.
 
     Parameters:
-    - one_hot: numpy.ndarray of shape (classes, m) with one-hot encoding
+    - one_hot: numpy.ndarray of shape (classes, m) containing one-hot encoding
 
     Returns:
-    - numpy.ndarray of shape (m,) with numeric labels for each example,
+    - numpy.ndarray of shape (m,) containing the numeric labels for each example
       or None on failure
     """
     if not isinstance(one_hot, np.ndarray):
         return None
-    if one_hot.size == 0:
+    try:
+        # argmax returns the index of the max value in each column
+        return np.argmax(one_hot, axis=0)
+    except Exception:
         return None
-
-    decoded = np.argmax(one_hot, axis=0)
-    return decoded

@@ -14,14 +14,14 @@ def train_model(network, data, labels, batch_size, epochs,
     Args:
         network: the model to train
         data: numpy.ndarray of shape (m, nx) containing the input data
-        labels: one-hot numpy.ndarray of shape (m, classes) containing labels
+        labels: one-hot numpy.ndarray of shape (m, classes) with labels
         batch_size: size of the batch used for mini-batch gradient descent
         epochs: number of passes through data for mini-batch gradient descent
         validation_data: data to validate the model with, if not None
-        early_stopping: boolean indicating whether early stopping should be used
+        early_stopping: boolean indicating if early stopping should be used
         patience: patience used for early stopping
         verbose: boolean that determines if output should be printed
-        shuffle: boolean that determines whether to shuffle batches every epoch
+        shuffle: boolean that determines if batches should be shuffled
 
     Returns:
         the History object generated after training the model

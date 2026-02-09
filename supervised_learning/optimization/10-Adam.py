@@ -23,5 +23,4 @@ def create_Adam_op(alpha, beta1, beta2, epsilon):
         beta_2=beta2,
         epsilon=epsilon
     )
-    
     return optimizer

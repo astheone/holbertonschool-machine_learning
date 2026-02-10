@@ -3,7 +3,8 @@
 
 
 def moving_average(data, beta):
-    """Calculates the weighted moving average of a data set with bias correction"""
+    """Calculates the weighted moving average of a data set
+    with bias correction"""
     moving_averages = []
     v = 0
 

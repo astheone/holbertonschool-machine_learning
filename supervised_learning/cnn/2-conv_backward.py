@@ -11,8 +11,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     sh, sw = stride
 
     if padding == 'same':
-        ph = (kh - 1) // 2
-        pw = (kw - 1) // 2
+        ph = ((h_prev - 1) * sh + kh - h_prev) // 2 + 1
+        pw = ((w_prev - 1) * sw + kw - w_prev) // 2 + 1
     else:
         ph, pw = 0, 0
 
@@ -35,8 +35,12 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     axis=0
                 )
 
-    if padding == 'same':
+    if ph > 0 and pw > 0:
         dA_prev = dA_prev_pad[:, ph:-ph, pw:-pw, :]
+    elif ph > 0:
+        dA_prev = dA_prev_pad[:, ph:-ph, :, :]
+    elif pw > 0:
+        dA_prev = dA_prev_pad[:, :, pw:-pw, :]
     else:
         dA_prev = dA_prev_pad
 

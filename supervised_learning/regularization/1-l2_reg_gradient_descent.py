@@ -4,7 +4,7 @@ import numpy as np
 
 
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
-    """Updates weights and biases using gradient descent with L2 regularization"""
+    """Updates weights and biases with L2 regularization"""
     m = Y.shape[1]
     dZ = cache['A' + str(L)] - Y
 

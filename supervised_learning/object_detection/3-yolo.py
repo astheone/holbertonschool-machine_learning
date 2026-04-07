@@ -143,9 +143,11 @@ class Yolo:
             cls_boxes = cls_boxes[order]
             cls_scores = cls_scores[order]
 
-            keep = []
             while len(cls_boxes) > 0:
-                keep.append(0)
+                box_predictions.append(cls_boxes[0])
+                predicted_box_classes.append(cls)
+                predicted_box_scores.append(cls_scores[0])
+
                 if len(cls_boxes) == 1:
                     break
 
@@ -172,19 +174,8 @@ class Yolo:
                 cls_boxes = cls_boxes[1:][iou < self.nms_t]
                 cls_scores = cls_scores[1:][iou < self.nms_t]
 
-            box_predictions.append(cls_boxes[:len(keep)] if len(
-                keep) == 1 else cls_boxes)
-            predicted_box_classes.append(
-                np.full(len(keep), cls)
-            )
-            predicted_box_scores.append(cls_scores[:len(keep)])
-
-        box_predictions = np.concatenate(box_predictions, axis=0)
-        predicted_box_classes = np.concatenate(
-            predicted_box_classes, axis=0
-        )
-        predicted_box_scores = np.concatenate(
-            predicted_box_scores, axis=0
-        )
+        box_predictions = np.array(box_predictions)
+        predicted_box_classes = np.array(predicted_box_classes)
+        predicted_box_scores = np.array(predicted_box_scores)
 
         return box_predictions, predicted_box_classes, predicted_box_scores

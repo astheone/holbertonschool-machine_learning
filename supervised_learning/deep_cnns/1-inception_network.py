@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
-"""Inception Network"""
+"""Inception Block"""
 from tensorflow import keras as K
-inception_block = __import__('0-inception_block').inception_block
 
 
-def inception_network():
-    """Builds the inception network"""
-    X = K.Input(shape=(224, 224, 3))
+def inception_block(A_prev, filters):
+    """Builds an inception block as described in GoogLeNet"""
+    F1, F3R, F3, F5R, F5, FPP = filters
 
     conv1 = K.layers.Conv2D(
-        64, (7, 7), strides=(2, 2), padding='same', activation='relu'
-    )(X)
-    pool1 = K.layers.MaxPooling2D(
-        (3, 3), strides=(2, 2), padding='same'
-    )(conv1)
+        F1, (1, 1), padding='same', activation='relu'
+    )(A_prev)
 
-    conv2 = K.layers.Conv2D(
-        64, (1, 1), padding='same', activation='relu'
-    )(pool1)
+    conv3r = K.layers.Conv2D(
+        F3R, (1, 1), padding='same', activation='relu'
+    )(A_prev)
     conv3 = K.layers.Conv2D(
-        192, (3, 3), padding='same', activation='relu'
-    )(conv2)
-    pool2 = K.layers.MaxPooling2D(
-        (3, 3), strides=(2, 2), padding='same'
-    )(conv3)
+        F3, (3, 3), padding='same', activation='relu'
+    )(conv3r)
 
-    inc3a = inception_block(pool2, [64, 96, 128, 16, 32, 32])
-    inc3b = inception_block(inc3a, [128, 128, 192, 32, 96, 64])
-    pool3 = K.layers.MaxPooling2D(
-        (3, 3), strides=(2, 2), padding='same'
+    conv5r = K.layers.Conv2D(
+        F5R, (1, 1), padding='same', activation='relu'
+    )(A_prev)
+    conv5 = K.layers.Conv2D(
+        F5, (5, 5), padding='same', activation='relu'
+    )(conv5r)
+
+    pool = K.layers.MaxPooling2D(
+        (3, 3), strides=(1, 1), padding='same'
+    )(A_prev)
+    convpp = K.layers.Conv2D(
+        FPP, (1, 1), padding='same', activation='relu'
+    )(pool)
+
+    return K.layers.concatenate([conv1, conv3, conv5, convpp])

@@ -48,7 +48,7 @@ def deep_rnn(rnn_cells, X, h_0):
             # Ruajmë h_next në matricën H për hapin tjetër kohor
             H[step + 1, layer] = h_next
 
-            # Hyrja për shtresën sipër është gjendja e fshehur e shtresës poshtë
+            # Hyrja për shtresën sipër është h_next e shtresës poshtë
             current_input = h_next
 
         # Dalja finale në këtë hap kohor është y i shtresës së fundit

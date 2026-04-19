@@ -40,22 +40,16 @@ class LSTMCell:
 
         # Forget gate
         f = 1 / (1 + np.exp(-(np.matmul(concat, self.Wf) + self.bf)))
-        
         # Update gate
         u = 1 / (1 + np.exp(-(np.matmul(concat, self.Wu) + self.bu)))
-        
         # Intermediate cell state
         c_tilde = np.tanh(np.matmul(concat, self.Wc) + self.bc)
-        
         # Next cell state
         c_next = f * c_prev + u * c_tilde
-        
         # Output gate
         o = 1 / (1 + np.exp(-(np.matmul(concat, self.Wo) + self.bo)))
-        
         # Next hidden state
         h_next = o * np.tanh(c_next)
-        
         # Output (y) using softmax
         y_linear = np.matmul(h_next, self.Wy) + self.by
         y = np.exp(y_linear) / np.sum(np.exp(y_linear), axis=1, keepdims=True)

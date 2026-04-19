@@ -29,11 +29,11 @@ def rnn(rnn_cell, X, h_0):
     for step in range(t):
         # rnn_cell.forward takes h_prev and x_t
         h_next, y = rnn_cell.forward(h_prev, X[step])
-        
+
         # Store results
         H[step + 1] = h_next
         Y[step] = y
-        
+
         # Update h_prev for the next iteration
         h_prev = h_next
 

@@ -1,51 +1,48 @@
 #!/usr/bin/env python3
-"""
-Modul për krijimin e një matrice Bag of Words (BoW)
-"""
-import numpy as np
+"""Module that creates bag of words embeddings."""
 import re
+import numpy as np
+
+
+def tokenize(sentence):
+    """Convert a sentence into normalized tokens.
+
+    Args:
+        sentence (str): Sentence to tokenize.
+
+    Returns:
+        list: List of lowercase tokens.
+    """
+    tokens = re.findall(r"[a-z0-9]+", sentence.lower())
+    return [token for token in tokens if len(token) > 1]
 
 
 def bag_of_words(sentences, vocab=None):
-    """
-    Krijon një matricë embedding duke përdorur Bag of Words.
+    """Create a bag of words embedding matrix.
 
     Args:
-        sentences: Një listë me fjali për t'u analizuar.
-        vocab: Një listë me fjalët e fjalorit (opsionale).
+        sentences (list): List of sentences to analyze.
+        vocab (list, optional): Vocabulary words to use.
 
     Returns:
-        embeddings: Një numpy.ndarray me formë (s, f) që përmban embeddings.
-        features: Një listë e fjalëve (features) të përdorura.
+        tuple: embeddings, features
+            embeddings is a numpy.ndarray of shape (s, f)
+            features is a numpy.ndarray of the features used
     """
-    # 1. Pastrimi i fjalive dhe tokenizimi (kthehen në fjalë të vogla pa pikësim)
-    cleaned_sentences = []
-    all_words = set()
+    tokenized = [tokenize(sentence) for sentence in sentences]
 
-    for sentence in sentences:
-        # Heqim shenjat e pikësimit dhe mbajmë vetëm fjalët/shkronjat
-        tokens = re.sub(r'[^\w\s]', '', sentence).lower().split()
-        cleaned_sentences.append(tokens)
-        if vocab is None:
-            all_words.update(tokens)
-
-    # 2. Përcaktimi i fjalorit (features)
-    if vocab is not None:
-        features = vocab
+    if vocab is None:
+        features = sorted(set(token
+                              for sentence in tokenized
+                              for token in sentence))
     else:
-        features = sorted(list(all_words))
+        features = vocab
 
-    # Krijojmë një indeks për çdo fjalë në fjalor për akses më të shpejtë
-    vocab_index = {word: i for i, word in enumerate(features)}
+    features = np.array(features)
+    embeddings = np.zeros((len(sentences), len(features)), dtype=int)
 
-    # 3. Ndërtimi i matricës së embeddings
-    s = len(sentences)
-    f = len(features)
-    embeddings = np.zeros((s, f), dtype=int)
-
-    for i, tokens in enumerate(cleaned_sentences):
-        for token in tokens:
-            if token in vocab_index:
-                embeddings[i, vocab_index[token]] += 1
+    for i, sentence in enumerate(tokenized):
+        for j, word in enumerate(features):
+            embeddings[i, j] = sentence.count(word)
 
     return embeddings, features
